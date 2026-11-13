@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Aptitude{% endblock %}
+{% block content %}
+<h2>Aptitude Test</h2>
+{% if review is defined %}
+<div class="card"><div class="score">{{ correct }}/{{ total }}</div></div>
+{% for r in review %}
+<div class="card">
+  <p><b>{{ r.q }}</b></p>
+  <p class="{{ 'ok' if r.ok else 'bad' }}">Your answer: {{ r.chosen or 'not answered' }}</p>
+  {% if not r.ok %}<p>Correct: {{ r.answer }}</p>{% endif %}
+  <p class="muted">{{ r.why }}</p>
+</div>
+{% endfor %}
+<a href="{{ url_for('main.aptitude') }}"><button>Try another set</button></a>
+{% else %}
+<form method="post">
+{% for q in quiz %}
+<div class="card">
+  <p><b>{{ loop.index }}. {{ q.q }}</b></p>
+  {% for o in q.opts %}<label class="opt"><input type="radio" name="q{{ q.id }}" value="{{ o }}"> {{ o }}</label>{% endfor %}
+</div>
+{% endfor %}
+<button>Submit</button>
+</form>
+{% endif %}
+{% endblock %}

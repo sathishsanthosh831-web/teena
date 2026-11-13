@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Placement Prep{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav>
+  <a class="brand" href="{{ url_for('main.index') }}">Placement Prep</a>
+  {% if user %}
+  <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('main.resume') }}">Resume</a>
+  <a href="{{ url_for('main.aptitude') }}">Aptitude</a>
+  <a href="{{ url_for('main.interview') }}">Interview</a>
+  <a href="{{ url_for('main.logout') }}">Logout ({{ user.name }})</a>
+  {% endif %}
+</nav>
+<main>
+  {% for m in get_flashed_messages() %}<div class="flash">{{ m }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Mock Interview{% endblock %}
+{% block content %}
+<h2>Mock Interview</h2>
+<form method="get" class="card">
+  <label>Role</label>
+  <select name="role" onchange="this.form.submit()">
+    {% for r in roles %}<option value="{{ r }}" {{ 'selected' if r == role }}>{{ r.replace('-', ' ').title() }}</option>{% endfor %}
+  </select>
+</form>
+{% if result %}
+<div class="card">
+  <p class="muted">{{ result.q }}</p>
+  <div class="score">{{ result.score }}/100</div>
+  <ul>{% for f in result.feedback %}<li>{{ f }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+<form method="post" class="card">
+  <input type="hidden" name="role" value="{{ role }}">
+  <input type="hidden" name="idx" value="{{ idx }}">
+  <p><b>{{ question }}</b></p>
+  <textarea name="answer" rows="7" placeholder="Type your answer..." required></textarea>
+  <button>Get feedback</button>
+</form>
+{% endblock %}

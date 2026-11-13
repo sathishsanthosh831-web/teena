@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Resume Analyzer{% endblock %}
+{% block content %}
+<h2>Resume Analyzer</h2>
+<div class="card">
+  <form method="post" enctype="multipart/form-data">
+    <label>Target role</label>
+    <select name="role">{% for r in roles %}<option value="{{ r }}">{{ r.replace('-', ' ').title() }}</option>{% endfor %}</select>
+    <label>Upload PDF / TXT</label>
+    <input type="file" name="file" accept=".pdf,.txt">
+    <label>...or paste resume text</label>
+    <textarea name="text" rows="8"></textarea>
+    <button>Analyze</button>
+  </form>
+</div>
+{% if result %}
+<div class="card">
+  <div class="score">{{ result.score }}/100</div>
+  <p class="muted">{{ result.words }} words &middot; sections: {{ result.sections_found|join(', ') or 'none' }}</p>
+  <h3>Matched skills</h3>
+  <div class="chips">{% for s in result.matched %}<span class="ok">{{ s }}</span>{% else %}<span>none</span>{% endfor %}</div>
+  <h3>Tips</h3>
+  <ul>{% for t in result.tips %}<li>{{ t }}</li>{% else %}<li class="ok">Looks great!</li>{% endfor %}</ul>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Hi {{ user.name }}</h2>
+<div class="grid">
+  <div class="card"><div class="muted">Best resume score</div><div class="score">{{ stats.best_resume if stats.best_resume is not none else '-' }}</div></div>
+  <div class="card"><div class="muted">Avg interview score</div><div class="score">{{ stats.avg_interview|round|int if stats.avg_interview is not none else '-' }}</div></div>
+  <div class="card"><div class="muted">Quizzes taken</div><div class="score">{{ stats.quizzes }}</div></div>
+</div>
+<div class="card"><h3>Recent resume scores</h3>
+<table>{% for r in resumes %}<tr><td>{{ r.role }}</td><td>{{ r.score }}/100</td><td class="muted">{{ r.created_at.strftime('%d %b %H:%M') }}</td></tr>{% else %}<tr><td class="muted">None yet</td></tr>{% endfor %}</table></div>
+<div class="card"><h3>Recent quizzes</h3>
+<table>{% for a in apts %}<tr><td>{{ a.correct }}/{{ a.total }}</td><td class="muted">{{ a.created_at.strftime('%d %b %H:%M') }}</td></tr>{% else %}<tr><td class="muted">None yet</td></tr>{% endfor %}</table></div>
+<div class="card"><h3>Recent interview answers</h3>
+<table>{% for i in ints %}<tr><td>{{ i.question }}</td><td>{{ i.score }}</td></tr>{% else %}<tr><td class="muted">None yet</td></tr>{% endfor %}</table></div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>AI-style Placement Prep Platform</h1>
+<p class="muted">Analyze your resume, practice aptitude, and rehearse interview answers. Track progress over time.</p>
+<div class="card">
+  <form method="post">
+    <label>Your name</label>
+    <input name="name" placeholder="e.g. Sathish" required maxlength="80" value="{{ user.name if user else '' }}">
+    <button>Start</button>
+  </form>
+</div>
+<div class="grid">
+  <div class="card"><h3>Resume Analyzer</h3><p class="muted">ATS-style score and tips for your target role.</p></div>
+  <div class="card"><h3>Aptitude Tests</h3><p class="muted">5 random questions with explanations.</p></div>
+  <div class="card"><h3>Mock Interview</h3><p class="muted">Answer a question, get scored feedback.</p></div>
+</div>
+{% endblock %}
