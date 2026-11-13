@@ -56,3 +56,19 @@ def test_aptitude_roundtrip(client):
     assert "Submit" in page
     r = client.post("/aptitude", data={})
     assert b"/5" in r.data
+
+
+def test_postgres_url_uses_psycopg2(monkeypatch):
+    monkeypatch.setenv("DATABASE_URL", "postgresql://u:p@host/db")
+    from sqlalchemy.engine import make_url
+    from app import create_app as ca
+    import app as appmod
+
+    captured = {}
+    orig = appmod.db.init_app
+    monkeypatch.setattr(appmod.db, "init_app", lambda a: captured.update(url=a.config["SQLALCHEMY_DATABASE_URI"]))
+    try:
+        ca()
+    except Exception:
+        pass
+    assert make_url(captured["url"]).drivername == "postgresql+psycopg2"
